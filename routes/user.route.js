@@ -110,6 +110,25 @@ userRouter.get("/:id",async (req,res)=>{
         return res.send({msg:error.message})
     }
 })
+userRouter.delete("/:id",async (req,res)=>{
+    try {
+        const userID = req.params.id;
+
+        const isUserExist = await UserModel.findOne({_id:userID});
+        if(!isUserExist){
+            return res.send({msg:"user does not exist...."})
+        }
+
+        await UserModel.findByIdAndDelete({_id:userID})
+
+        res.send({
+            msg:"user has been deleted..."
+        })
+        
+    } catch (error) {
+        return res.send({msg:error.message})
+    }
+})
 
 userRouter.post("/register",async (req,res)=>{
 
